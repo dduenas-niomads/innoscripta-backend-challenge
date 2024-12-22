@@ -3,6 +3,9 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Http\Request;
+use \Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -15,5 +18,22 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
-    })->create();
+        // Expose error to client is a security hole so here I have
+        // a custom 404 error handler for the Article management API.
+        // To this example, I only do it for NotFoundHttpException...
+        // Rest of exceptions I will do it later.
+        $exceptions->render(function (NotFoundHttpException $e, Request $request) {
+            if ($request->is('api/articles/*')) {
+                return response()->json([
+                    'status'  => 'error',
+                    'message' => 'Article not found.'
+                ], 404);
+            }
+        });
+    })
+    ->withSchedule(function (Schedule $schedule) {
+        // Sync from New York Times every 5 minutes.
+        $schedule->command('app:article-sync-new-york-times')->hourly();
+        $schedule->command('app:article-sync-news-api-dot-org')->hourly();
+    })
+    ->create();

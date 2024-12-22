@@ -104,5 +104,8 @@ return [
     */
 
     'prefix' => env('CACHE_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_cache_'),
+ 
+    /** Save cache for 1 hour */
+    'time_in_seconds' => 3600,
 
 ];

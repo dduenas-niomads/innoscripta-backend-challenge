@@ -2,9 +2,11 @@
 
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Article\ArticleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+// User authentication routes
 Route::group(['prefix' => 'auth', 'middleware' => ['throttle:api']], function() {
     // public routes - register and login
     Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
@@ -22,4 +24,9 @@ Route::group(['prefix' => 'auth', 'middleware' => ['throttle:api']], function() 
             return $request->user();
         })->name('user.profileInfo');
     });
+});
+
+// Article management routes
+Route::group(['middleware' => ['auth:sanctum', 'throttle:api']], function() {
+    Route::apiResource('articles', ArticleController::class)->only('index', 'show');
 });

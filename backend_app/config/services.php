@@ -35,4 +35,18 @@ return [
         ],
     ],
 
+    'news_api_ai' => [
+        'api_key' => env('NEWS_API_AI_APIKEY'),
+        'api_url' => env('NEWS_API_AI_URL'),
+    ],
+
+    'news_api_dot_org' => [
+        'api_key' => env('NEWS_API_ORG_APIKEY'),
+        'api_url' => env('NEWS_API_ORG_URL'),
+    ],
+
+    'newyork_times_api' => [
+        'api_key' => env('NYT_APIKEY'),
+        'api_url' => env('NYT_URL'),
+    ],
 ];

@@ -24,7 +24,14 @@ migrate:
 	docker exec backend_app bash -c "php artisan migrate"
 migrate-seed:
 	docker exec backend_app bash -c "php artisan migrate:fresh --seed"
+	@make articles-sync
 test:
 	docker exec backend_app bash -c "php artisan test"
 route-list:
 	docker exec backend_app bash -c "php artisan route:list"
+schedule-list:
+	docker exec backend_app bash -c "php artisan schedule:list"
+articles-sync:
+	docker exec backend_app bash -c "php artisan app:article-sync-new-york-times"
+	docker exec backend_app bash -c "php artisan app:article-sync-news-api-dot-org"
+	docker exec backend_app bash -c "php artisan app:article-sync-news-api-ai"
