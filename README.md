@@ -39,10 +39,10 @@ make initial-setup
 ```
 After the setup, you're going to have:
 
-* Clean Laravel v11.* in _/backend_ folder
+* Clean Laravel v11.* in `/backend_app` folder
 * Docker container with Apache and Php8.4
 * MySQL Server (Latest version)
-* Adminer (Webapp to handle data)
+* Adminer (Database admin at localhost:8080)
 * Api running at localhost:5000 
 
 Verify the running containers with 
@@ -51,7 +51,9 @@ Verify the running containers with
 
 If you need to change the ports of the containers, just replace it in docker-compose.yml
 
-## Database
+## Environment
+
+### Database
 
 The database is fundamental to the operation of this API. Before proceeding, you need to fill in the values for 
 _prod_ and _test_ databases. Here is an example of my local environment:
@@ -70,6 +72,26 @@ DB_DATABASE_TEST=innoscripta_test
 DB_USERNAME_TEST=root
 DB_PASSWORD_TEST=root
 ```
+
+If everything goes right with the instalation, and you already put your
+database credentials in .env, please run the next command to populate the production database.
+
+** Important => You need to create the database first. For example, for this project
+you need to create `innoscripta_prod` and `innoscripta_test` database.
+
+You can access to the database administrator throught the adminer container at `localhost:8080`
+using: user => `root` and password => `root`
+
+```bash
+make migrate-seed
+```
+After this migration and seeding, you're going to have a demo user and password. Use it wisely ;)
+
+* email => dduenas@niomads.com
+* password => Backend#2024
+
+### External sources
+
 Much of the development is geared towards consuming information from external sources. 
 Therefore, it is necessary that you enter the apiKeys of these sources that were used in the API.
 
@@ -82,29 +104,13 @@ NEWS_API_ORG_APIKEY=xxx
 NEWS_API_AI_URL=https://eventregistry.org/api/v1/article/getArticles
 NEWS_API_AI_APIKEY=xxx
 
-**Important => If you don't have a valid apiKey, the resource is not going to work properly.
+** Important => If you don't have a valid apiKey, the resource is not going to work properly.
 
-## Environment
-
-When the instalation is completed, please running all tests with the next command
+You can pull data from every source with the following command:
 
 ```bash
-make test
+make articles-sync
 ```
-You are going to see this output: 
-```bash
-  Tests:    41 passed (44 assertions)
-  Duration: 25.32s
-```
-
-If everything goes right with testing, please run the next command to populate the production database
-```bash
-make migrate-seed
-```
-After this migration and seeding, you're going to have a demo user and password. Use it wisely ;)
-
-* email => dduenas@niomads.com
-* password => Backend#2024
 
 ## Documentation
 
@@ -118,12 +124,23 @@ I try to write clean, maintainable, and well-documented code.
 ## Testing
 
 Highly committed software testing to use cases. Here you're going to find:
-    
 * 40 feature tests
 * 1 unit test. 
 * Independent database for testing (Phpunit.xml configuration)
+    
+Please running all tests with the next command
 
-Enjoy running all tests with _make test_ command on the root folder.
+```bash
+make test
+```
+
+You are going to see this output: 
+```bash
+  Tests:    41 passed (44 assertions)
+  Duration: 25.32s
+```
+
+Enjoy running all tests with `make test` command on the root folder.
 
 ## Performance
 
@@ -145,7 +162,19 @@ Here I applied my favorite strategies:
 * Handling of primary keys to have user-friendly urls in show method (Avoid using resource/{id})
 * And more!
 
-Thanks for watching and don't forget to rate this project!
+## Summary of commands
+    1. make initial-setup
+    2. make migrate-seed
+    3. make articles-sync
+    4. make test
+
+## Greeting
+
+```
+  while (true) {
+    echo 'Thanks for watching and don't forget to rate this project!';
+  }
+```
 
 Best,
 Daniel
