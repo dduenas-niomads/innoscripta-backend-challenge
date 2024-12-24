@@ -18,7 +18,7 @@ class UserSeeder extends Seeder
         User::factory()->create([
             'name' => 'Daniel Dueñas',
             'email' => 'dduenas@niomads.com',
-            'password' =>  Hash::make('Niomads2024.')
+            'password' =>  Hash::make('Backend#2024')
         ]);
     }
 }

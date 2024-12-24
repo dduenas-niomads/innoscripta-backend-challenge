@@ -29,7 +29,7 @@ abstract class TestCase extends BaseTestCase
         $this->code         = '123456';
         $this->name         = 'Daniel Dueñas';
         $this->email        = 'dduenas@niomads.com';
-        $this->password     = 'Niomads2024.';
+        $this->password     = 'Backend#2024';
         $this->notification = false;
         $this->articleTile  = 'This article about Peru is amazing';
         $this->correctSlug  = 'this_article_about_peru_is_amazing';
