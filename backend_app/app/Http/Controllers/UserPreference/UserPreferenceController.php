@@ -103,11 +103,14 @@ class UserPreferenceController extends Controller
 
     private static function feedQuery($type, $userId) 
     {
-        // 
-        $preferences = UserPreference::withoutTrashed()
-            ->whereUserId($userId)
-            ->whereType($type)
-            ->get();
+        // Use caching strategy to load results instantly. Persist data for 1 hour.
+        $preferences = cache()->remember('preference_feed_' . $type, config('cache.time_in_seconds'), 
+            function() use($type, $userId) {
+                return UserPreference::withoutTrashed()
+                    ->whereUserId($userId)
+                    ->whereType($type)
+                    ->get();
+            });
 
         return UserPreferenceResource::collection($preferences);
     }
