@@ -3,6 +3,10 @@
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Article\ArticleController;
+use App\Http\Controllers\Article\AuthorController;
+use App\Http\Controllers\Article\CategoryController;
+use App\Http\Controllers\Article\SourceController;
+use App\Http\Controllers\UserPreference\UserPreferenceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,4 +33,14 @@ Route::group(['prefix' => 'auth', 'middleware' => ['throttle:api']], function() 
 // Article management routes
 Route::group(['middleware' => ['auth:sanctum', 'throttle:api']], function() {
     Route::apiResource('articles', ArticleController::class)->only('index', 'show');
+    // extra routes
+    Route::apiResource('authors', AuthorController::class)->only('show');
+    Route::apiResource('categories', CategoryController::class)->only('show');
+    Route::apiResource('sources', SourceController::class)->only('show');
+});
+
+// User Preference routes
+Route::group(['middleware' => ['auth:sanctum', 'throttle:api']], function() {
+    Route::apiResource('user-preference', UserPreferenceController::class)->only('index', 'store', 'destroy');
+    Route::get('/user-preference/show-feed', [UserPreferenceController::class, 'showFeed'])->name('user-preference.showFeed');
 });

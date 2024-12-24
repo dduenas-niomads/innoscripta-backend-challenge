@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\User;
-use Laravel\Sanctum\Sanctum;
 
 class ResetPasswordTest extends TestCase
 {

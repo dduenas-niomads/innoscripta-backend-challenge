@@ -24,6 +24,7 @@ class ArticleResource extends JsonResource
     public function toArray(Request $request): array
     {   
         return [
+            'id' => $this->when(self::$mode === 'article', $this->id),
             'slug' => $this->slug,
             // Category, Author and Source are display as an objects...
             // But, depends on the requirement, they could be display as a Strings too.

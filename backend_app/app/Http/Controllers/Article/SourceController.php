@@ -34,11 +34,12 @@ class SourceController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display a specified source.
      */
     public function show(Source $source)
     {
         //
+        return $source;
     }
 
     /**

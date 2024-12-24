@@ -43,12 +43,16 @@ Verify the running containers with
 
 > docker ps
 
+## Environment
 ## Database
 1. change .env values
 2. run make migrate
-## Code
+## Coding
 1. Auth => Complete Auth API with Sanctum
 2. Password reset with API => Complete flow with code validation. To use email notification, credentials are needed.
 ## Testing
 1. All feature tests for Auth API
 2. All feature tests for PwdRestore API
+## Documentation
+## Performance
+## Security

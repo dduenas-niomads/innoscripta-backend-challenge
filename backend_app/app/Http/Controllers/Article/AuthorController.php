@@ -34,11 +34,12 @@ class AuthorController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display an specified author.
      */
     public function show(Author $author)
     {
         //
+        return $author;
     }
 
     /**

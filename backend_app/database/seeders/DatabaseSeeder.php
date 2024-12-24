@@ -20,6 +20,8 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             SourceSeeder::class,
             ArticleSeeder::class,
+            // User preference
+            UserPreferenceSeeder::class,
         ]);
     }
 }

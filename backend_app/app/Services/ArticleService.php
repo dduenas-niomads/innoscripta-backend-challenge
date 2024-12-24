@@ -34,7 +34,7 @@ class ArticleService
         // lowercase
         $slug = strtolower($slug);
         // return title as slug
-        return empty($slug) ? 'no_slug' : $slug;
+        return empty($slug) ? 'no_slug' : substr($slug, 0, 250);
     }
 
     public function createNewArticle($articleData = []) {

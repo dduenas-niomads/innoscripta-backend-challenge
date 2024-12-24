@@ -11,6 +11,7 @@ use Carbon\Carbon;
 
 class AuthController extends Controller
 {
+    /** Create a new account*/
     public function register(Request $request)
     {
         // Laravel provides us an easy way to validate such passwords with the Password Rule.
@@ -34,6 +35,8 @@ class AuthController extends Controller
         ]);
     }
 
+    
+    /** Log in*/
     public function login(Request $request)
     {
         $request->validate([
@@ -62,6 +65,8 @@ class AuthController extends Controller
         ]);
     }
 
+    
+    /** Refresh token*/
     public function refreshToken(Request $request)
     {
         // create new token
@@ -79,6 +84,8 @@ class AuthController extends Controller
         ]);
     }
 
+    
+    /** Log out from all sessions*/
     public function logoutAll(Request $request)
     {
         // Revoke all tokens...
@@ -90,6 +97,8 @@ class AuthController extends Controller
         ]);
     }
 
+    
+    /** Log out from current session*/
     public function logout(Request $request)
     {
         // Revoke the token that was used to authenticate the current request...

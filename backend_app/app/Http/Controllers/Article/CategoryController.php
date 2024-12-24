@@ -34,11 +34,12 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display a specified category.
      */
     public function show(Category $category)
     {
         //
+        return $category;
     }
 
     /**

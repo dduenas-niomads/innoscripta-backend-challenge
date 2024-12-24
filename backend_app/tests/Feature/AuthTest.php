@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 use App\Models\User;
-use Laravel\Sanctum\Sanctum;
 
 class AuthTest extends TestCase
 {

@@ -19,7 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         // Expose error to client is a security hole so here I have
-        // a custom 404 error handler for the Article management API.
+        // a custom 404 error handler for the Article management and User preferences.
         // To this example, I only do it for NotFoundHttpException...
         // Rest of exceptions I will do it later.
         $exceptions->render(function (NotFoundHttpException $e, Request $request) {
@@ -27,6 +27,14 @@ return Application::configure(basePath: dirname(__DIR__))
                 return response()->json([
                     'status'  => 'error',
                     'message' => 'Article not found.'
+                ], 404);
+            }
+        });
+        $exceptions->render(function (NotFoundHttpException $e, Request $request) {
+            if ($request->is('api/user-preference/*')) {
+                return response()->json([
+                    'status'  => 'error',
+                    'message' => 'Preference not found.'
                 ], 404);
             }
         });

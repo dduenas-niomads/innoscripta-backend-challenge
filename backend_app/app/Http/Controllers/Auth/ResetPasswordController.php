@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Mail;
 
 class ResetPasswordController extends Controller
 {
+    /** Forgot password */
     public function forgotPassword(Request $request)
     {
         $data = $request->validate([
@@ -46,6 +47,7 @@ class ResetPasswordController extends Controller
         }
     }
 
+    /** Password code check */
     public function passwordCodeCheck(Request $request)
     {
         $request->validate([
@@ -73,6 +75,7 @@ class ResetPasswordController extends Controller
         ]);
     }
 
+    /** Reset password */
     public function resetPassword(Request $request)
     {
         $request->validate([

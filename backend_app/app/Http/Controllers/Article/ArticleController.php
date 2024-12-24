@@ -12,7 +12,7 @@ use App\Models\Article;
 class ArticleController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Fetch articles.
      */
     public function index(ArticleRequest $request)
     {
@@ -55,7 +55,7 @@ class ArticleController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Retrieving a single article by slug.
      */
     public function show(Article $article)
     {

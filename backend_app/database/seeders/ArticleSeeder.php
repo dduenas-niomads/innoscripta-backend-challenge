@@ -18,14 +18,29 @@ class ArticleSeeder extends Seeder
     {
         //
         Article::create([
-                'title'        => 'This article about peru is amazing',
+            'title'        => 'This article about Perú is amazing',
+            'author_id'    => Author::first()->id,
+            'category_id'  => Category::first()->id,
+            'source_id'    => Source::first()->id,
+            'slug'         => 'this_article_about_peru_is_amazing',
+            'description'  => 'Lorem ipsum ...',
+            'url'          => 'https://twitter_not_x.com/articles/this_article_about_peru_is_amazing',
+            'keywords'     => 'peru',
+            'section'      => 'popular-news',
+            'type'         => 'news',
+            'media'        => [],
+            'published_at' => date("Y-m-d"),
+            ]
+        );
+        Article::create([
+                'title'        => 'This article about Spain is amazing',
                 'author_id'    => Author::first()->id,
                 'category_id'  => Category::first()->id,
                 'source_id'    => Source::first()->id,
-                'slug'         => 'this_article_about_peru_is_amazing',
+                'slug'         => 'this_article_about_spain_is_amazing',
                 'description'  => 'Lorem ipsum ...',
-                'url'          => 'https://twitter_not_x.com/articles/this_article_about_peru_is_amazing',
-                'keywords'     => 'peru',
+                'url'          => 'https://twitter_not_x.com/articles/this_article_about_spain_is_amazing',
+                'keywords'     => 'spain',
                 'section'      => 'popular-news',
                 'type'         => 'news',
                 'media'        => [],
