@@ -2,34 +2,15 @@
 
 namespace Tests\Feature;
 
-// use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 
 class ResetPasswordTest extends TestCase
 {
-    public $code;
-    public $email;
-    public $password;
-    public $notification;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->code  = '123456';
-        $this->email = 'dduenas@niomads.com';
-        $this->password = 'Niomads2024.';
-        $this->notification = false;
-
-        \Artisan::call('migrate:fresh', ['-vvv' => true]);
-    }
-
     /** Test if guest can get a reset code using correct attributes */
     public function test_guest_can_get_reset_password_code()
     {
-        \Artisan::call('db:seed', ['-vvv' => true]);
-
         $body = [
             'email' => $this->email,
             'notification' => $this->notification
@@ -41,8 +22,6 @@ class ResetPasswordTest extends TestCase
     /** Test if guest can get a reset code using invalid attributes */
     public function test_guest_cannot_get_reset_password_code()
     {
-        \Artisan::call('db:seed', ['-vvv' => true]);
-
         $body = [
             'email' => 'fake@email.com',
             'notification' => false
@@ -58,8 +37,6 @@ class ResetPasswordTest extends TestCase
     /** Test if guest can check a reset password code using correct attributes */
     public function test_guest_can_check_password_reset_code()
     {
-        \Artisan::call('db:seed', ['-vvv' => true]);
-
         $body = [
             'code'  => $this->code,
             'email' => $this->email
@@ -71,8 +48,6 @@ class ResetPasswordTest extends TestCase
     /** Test if guest can check a reset password code using invalid attributes */
     public function test_guest_cannot_check_password_reset_code()
     {
-        \Artisan::call('db:seed', ['-vvv' => true]);
-
         $body = [
             'code'  => '100000',
             'email' => $this->email
@@ -88,8 +63,6 @@ class ResetPasswordTest extends TestCase
     /** Test if guest can reset a password using correct attributes */
     public function test_guest_can_reset_password()
     {
-        \Artisan::call('db:seed', ['-vvv' => true]);
-
         $body = [
             'code'  => $this->code,
             'email' => $this->email,
@@ -103,8 +76,6 @@ class ResetPasswordTest extends TestCase
     /** Test if guest can reset a password using invalid attributes */
     public function test_guest_cannot_reset_password()
     {
-        \Artisan::call('db:seed', ['-vvv' => true]);
-
         $body = [
             'code'  => '100000',
             'email' => $this->email,

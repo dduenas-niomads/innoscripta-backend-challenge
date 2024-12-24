@@ -9,11 +9,11 @@ use App\Models\Author;
 
 class AuthorService
 {
-    public function getAuthor($name) {
+    public static function getAuthor($name) {
         $author = null;
         if (!empty($name)) {
             // Search author in DB.
-            $author = Author::deletedAt()
+            $author = Author::withoutTrashed()
                 ->where('name', $name)
                 ->first();
             // If author not exists, create new one.

@@ -35,5 +35,6 @@ return Application::configure(basePath: dirname(__DIR__))
         // Sync from New York Times every 5 minutes.
         $schedule->command('app:article-sync-new-york-times')->hourly();
         $schedule->command('app:article-sync-news-api-dot-org')->hourly();
+        $schedule->command('app:article-sync-news-api-ai')->hourly();
     })
     ->create();

@@ -10,48 +10,40 @@ use Illuminate\Support\Facades\Concurrency;
 
 class ArticleService
 {
-    protected AuthorService $authorService;
-    protected CategoryService $categoryService;
-    protected SourceService $sourceService;
-
-    public function __construct() {
-        $this->authorService = new AuthorService();
-        $this->categoryService = new CategoryService();
-        $this->sourceService = new SourceService();
-    }
-
     public function getAuthorCategorySourceAndSlugInConcurrencyMode($authorName, $categoryName, $sourceName, $articleTitle) {
-        /** Using Concurrency to handle different functions at same time */
-        [$author, $category, $source, $slug] = Concurrency::driver('sync')->run([
-            fn() => $this->authorService->getAuthor($authorName),
-            fn() => $this->categoryService->getCategory($categoryName),
-            fn() => $this->sourceService->getSource($sourceName),
-            fn() => $this->getSlugFromArticleTitle($articleTitle),
+        /** Using Concurrency to handle different functions at same time */        
+        return Concurrency::run([
+            fn() => AuthorService::getAuthor($authorName),
+            fn() => CategoryService::getCategory($categoryName),
+            fn() => SourceService::getSource($sourceName),
+            fn() => self::getSlugFromArticleTitle($articleTitle),
         ]);
-
-        return [
-            isset($author->id) ? $author : null, 
-            isset($category->id) ? $category : null, 
-            isset($source->id) ? $source : null, 
-            // Convert title of article to slug text
-            $slug
-        ];
     }
     
-    public function getSlugFromArticleTitle($articleTitle, $delimiter = '_') {
-        $slug = strtolower(trim(preg_replace('/[\s-]+/', $delimiter, preg_replace('/[^A-Za-z0-9-]+/', $delimiter, preg_replace('/[&]/', 'and', preg_replace('/[\']/', '', iconv('UTF-8', 'ASCII//TRANSLIT', $articleTitle))))), $delimiter));
-        
-        return $slug;
+    public static function getSlugFromArticleTitle($title, $divider = '_') {
+        // replace non letter or digits by divider
+        $slug = preg_replace('~[^\pL\d]+~u', $divider, $title);
+        // transliterate
+        $slug = iconv('utf-8', 'us-ascii//TRANSLIT', $slug);
+        // remove unwanted characters
+        $slug = preg_replace('~[^-\w]+~', '', $slug);
+        // trim - remove all spaces
+        $slug = trim($slug, $divider);
+        // remove duplicate divider
+        $slug = preg_replace('~-+~', $divider, $slug);
+        // lowercase
+        $slug = strtolower($slug);
+        // return title as slug
+        return empty($slug) ? 'no_slug' : $slug;
     }
 
     public function createNewArticle($articleData = []) {
-        $article = Article::create($articleData);
+        return Article::create($articleData);
     }
 
     public function findArticleBySlugAndSourceId($slug, $sourceId) {
-        return Article::deletedAt()
+        return Article::withoutTrashed()
             ->whereSlug($slug)
-            // ->whereSourceId($sourceId)
             ->first();
     }
 

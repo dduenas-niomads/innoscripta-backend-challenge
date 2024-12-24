@@ -12,8 +12,8 @@ class ArticleResource extends JsonResource
      *
      * @return array<string, mixed>
      */
-    // Change data attribute name for body
-    public static $wrap = 'body';
+    // Change data attribute name for body if is necessary
+    // public static $wrap = 'body';
     public static $mode = 'article';
     // Set current mode for this resource
     public static function setMode($mode) : string {

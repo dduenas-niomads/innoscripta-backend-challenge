@@ -7,6 +7,7 @@ setup:
 	@make up 
 	@make composer-update
 	@make migrate
+	@make test
 build:
 	docker-compose build --no-cache --force-rm
 stop:

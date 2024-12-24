@@ -12,12 +12,14 @@ class NewsApiAIService
     protected $apiKey;
     protected $apiUrl;
     protected $cacheTime;
+    protected ArticleService $articleService;
 
     public function __construct()
     {
         $this->apiKey = config('services.news_api_ai.api_key');
         $this->apiUrl = config('services.news_api_ai.api_url');
         $this->cacheTime = config('cache.time_in_seconds');
+        $this->articleService = new ArticleService();
     }
 
     public function getArticles($keyword = 'news_api_ai')
@@ -57,25 +59,24 @@ class NewsApiAIService
             'new_articles'   => 0,
             'total_articles' => 0,
         ];
-        $articleService = new ArticleService();
         $syncArticlesToDb['total_articles'] = count($articles);
         foreach ($articles as $article) {
             # Find Author, Category, Source and convert article title into slug text
             $getAuthorCategoryAndSourceInConcurrencyMode = 
-                $articleService->getAuthorCategorySourceAndSlugInConcurrencyMode(
+                $this->articleService->getAuthorCategorySourceAndSlugInConcurrencyMode(
                     isset($article['source']) ? $article['source']['uri'] : null, $article['dataType'], 
                     isset($article['source']) ? $article['source']['title'] : null, $article['title']
                 );
             if (!in_array(null, $getAuthorCategoryAndSourceInConcurrencyMode, true)) {
                 # Find article in bd using the slug and sourceId.
-                $dbArticle = $articleService->findArticleBySlugAndSourceId(
+                $dbArticle = $this->articleService->findArticleBySlugAndSourceId(
                     $getAuthorCategoryAndSourceInConcurrencyMode[3], 
                     $getAuthorCategoryAndSourceInConcurrencyMode[2]->id
                 );
                 if (is_null($dbArticle)) {
                     # When dbArticle is null means the article don't exists in DB.
                     # So needs to be created.
-                    $articleService->createNewArticle([
+                    $this->articleService->createNewArticle([
                         'title'        => substr($article['title'], 0, 250),
                         'author_id'    => $getAuthorCategoryAndSourceInConcurrencyMode[0]->id,
                         'category_id'  => $getAuthorCategoryAndSourceInConcurrencyMode[1]->id,

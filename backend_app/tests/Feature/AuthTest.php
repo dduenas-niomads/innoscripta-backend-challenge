@@ -2,32 +2,15 @@
 
 namespace Tests\Feature;
 
-// use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 use App\Models\User;
 use Laravel\Sanctum\Sanctum;
 
 class AuthTest extends TestCase
 {
-    public $name;
-    public $email;
-    public $password;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-        $this->name  = 'Daniel Dueñas';
-        $this->email = 'dduenas@niomads.com';
-        $this->password = 'Niomads2024.';
-
-        \Artisan::call('migrate:fresh', ['-vvv' => true]);
-    }
-
     /** Test a correct login case */
     public function test_login_success()
     {
-        \Artisan::call('db:seed', ['-vvv' => true]);
-
         $body = [
             'email' => $this->email,
             'password' => $this->password
@@ -39,10 +22,8 @@ class AuthTest extends TestCase
     /** Test an incorrect login case when email is correct but password is incorrect */
     public function test_login_error_email_exists_but_incorrect_password()
     {
-        \Artisan::call('db:seed', ['-vvv' => true]);
-
         $body = [
-            'email' => 'dduenas@niomads.com',
+            'email' => $this->email,
             'password' => 'password'
         ];
 
@@ -52,8 +33,6 @@ class AuthTest extends TestCase
     /** Test an incorrect login case when email is incorrect (user not exists) */
     public function test_login_error_email_is_invalid()
     {
-        \Artisan::call('db:seed', ['-vvv' => true]);
-
         $body = [
             'email' => 'fake@email.com',
             'password' => 'password'
@@ -67,14 +46,14 @@ class AuthTest extends TestCase
     {
         $body = [
             'name' => $this->name,
-            'email' => $this->email,
+            'email' => time() . "@mail.com",
             'password' => $this->password,
             'password_confirmation' => $this->password
         ];
 
         $this->json('POST', route('auth.register'), $body)->assertOk()
             ->assertJson([
-                // Validate if status atribute exists in Json response body
+                // Validate if status atribute exists in Json response body and the value is 'ok'
                 "status" => "ok"
             ]);
     }
@@ -89,15 +68,16 @@ class AuthTest extends TestCase
             'password_confirmation' => '12345678'
         ];
 
-        // You can change the body to have another wrong scenario
-        // For example: password_confirmation missing, or password and p_confirmation not match or email already exists
-        // All wrong cases throw a 422 status
-
+        /**
+         * You can change the body to have another wrong scenario.
+         * For example: password_confirmation missing, or password and p_confirmation not match or email already exists.
+         * All wrong cases throw a 422 status
+        */
         $this->json('POST', route('auth.register'), $body)->assertStatus(422);
     }
 
     /** Test if logged user can see profile information */
-    public function test_authenticated_user_can_see_profile_information()
+    public function test_logged_user_can_see_profile_information()
     {
         Sanctum::actingAs(
             User::factory()->create(),

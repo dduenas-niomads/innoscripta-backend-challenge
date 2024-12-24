@@ -9,11 +9,11 @@ use App\Models\Source;
 
 class SourceService
 {
-    public function getSource($name) {
+    public static function getSource($name) {
         $source = null;
         if (!empty($name)) {
             // Search source in DB.
-            $source = Source::deletedAt()
+            $source = Source::withoutTrashed()
                 ->where('name', $name)
                 ->first();
             // If source not exists, create new one.

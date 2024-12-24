@@ -27,8 +27,19 @@ class ArticleSyncNewsApiDotOrg extends Command
     public function handle()
     {
         // NEWS API DOT ORG
-        $newsApiDotOrgService = new NewsApiDotOrgService();
-        $newsApiDotOrgService->getArticles();
+        $this->info("================");
+        $this->info($this->description);
+        try {
+            $newsApiDotOrgService = new NewsApiDotOrgService();
+            $result = $newsApiDotOrgService->getArticles();
+            $this->info('new_articles: ' . (isset($result['new_articles']) ? $result['new_articles'] : '0'));
+            $this->info('total_articles: ' . (isset($result['total_articles']) ? $result['total_articles'] : '0'));
+        } catch (\Throwable $th) {
+            $this->error("Error: " . $th->getMessage());
+            return Command::FAILURE;
+        }
+        $this->info('Process ended correctly');
+
         return Command::SUCCESS;
     }
 }

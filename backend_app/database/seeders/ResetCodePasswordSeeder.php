@@ -4,9 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Source;
+use App\Models\ResetCodePassword;
 
-class SourceSeeder extends Seeder
+class ResetCodePasswordSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,8 +14,9 @@ class SourceSeeder extends Seeder
     public function run(): void
     {
         //
-        Source::create([
-            'name'  => 'twitter_not_x.com'
+        ResetCodePassword::create([
+            'code'  => '123456',
+            'email' => 'dduenas@niomads.com'
         ]);
     }
 }

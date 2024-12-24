@@ -16,8 +16,12 @@ class ArticleController extends Controller
      */
     public function index(ArticleRequest $request)
     {
-        // 
-        $articles = Article::deletedAt()
+        /**
+         * I use withoutTrashed function from SoftDeletes trait and
+         * ofType is a local scope to filter by articles by Type.
+        */
+        $articles = Article::withoutTrashed()
+            ->ofType()
         // Filter by keywords - text can be Like %%
             ->where(Article::TABLE_NAME . ".keywords", "LIKE", "%{$request->keywords}%");
         // Filter by published_at - date needs to be equal.

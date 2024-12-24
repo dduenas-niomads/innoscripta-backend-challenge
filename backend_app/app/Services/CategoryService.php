@@ -9,11 +9,11 @@ use App\Models\Category;
 
 class CategoryService
 {
-    public function getCategory($name) {
+    public static function getCategory($name) {
         $category = null;
         if (!empty($name)) {
             // Search category in DB.
-            $category = Category::deletedAt()
+            $category = Category::withoutTrashed()
                 ->where('name', $name)
                 ->first();
             // If category not exists, create new one.

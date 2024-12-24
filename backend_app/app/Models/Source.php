@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Source extends Model
 {
     /** @use HasFactory<\Database\Factories\SourceFactory> */
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $connection = 'mysql';
     const TABLE_NAME = 'sources';
@@ -23,11 +24,6 @@ class Source extends Model
         //Audit 
         'created_at','updated_at','deleted_at',
     ];
-
-    /** Scopes - Avoid same eloquent where conditions */
-    public function scopeDeletedAt($query) {
-        return $query->where(self::TABLE_NAME . '.deleted_at');
-    }
 
     /**
      * Casting of attributes
