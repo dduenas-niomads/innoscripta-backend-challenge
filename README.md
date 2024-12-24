@@ -2,8 +2,10 @@
 
 Hi! this is a demo backend project for Innoscripta in #laravel-v11.*
 Before continue, please make sure you have this working on your computer:
-    *   Git
-    *   Docker
+
+* Git (Recommended Git version 2.34.*)
+* Docker (Recommended Docker version 24.*)
+* Docker compose (Recommended Docker Compose version v2.23.*)
 
 ## Initial Steps
 
@@ -101,8 +103,8 @@ make migrate-seed
 ```
 After this migration and seeding, you're going to have a demo user and password. Use it wisely ;)
 
-    * email => dduenas@niomads.com
-    * password => Backend#2024
+* email => dduenas@niomads.com
+* password => Backend#2024
 
 ## Documentation
 
@@ -116,25 +118,34 @@ I try to write clean, maintainable, and well-documented code.
 ## Testing
 
 Highly committed software testing to use cases. Here you're going to find:
-    * 40 feature tests
-    * 1 unit test. 
+    
+* 40 feature tests
+* 1 unit test. 
+* Independent database for testing (Phpunit.xml configuration)
 
 Enjoy running all tests with _make test_ command on the root folder.
 
 ## Performance
 
 Here you will find interesting things like:
-    * Limiting API calls with Throttle (Different limits for users and guests...)
-    * Caching strategies for fetching data
-    * Scheduling commands to pull data from external sources
-    * Concurrency! To handle multiple operations at the same time.
-    * Personal tips with Eloquent local scopes, Data Resources and traits!
+    
+* Limiting API calls with Throttle (Different limits for users and guests...)
+* Caching strategies for fetching data
+* Scheduling commands to pull data from external sources
+* Concurrency! To handle multiple operations at the same time.
+* Personal tips with Eloquent local scopes, Data Resources and traits!
 
 ## Security
 
 Here I applied my favorite strategies:
-    * Auth middleware to handle data
-    * API to reset password using a code (Email information is needed)
-    * Very detailed request validations for important resources
-    * Handling of primary keys to have user-friendly urls in show method (Avoid using resource/{id})
-    * And more!
+    
+* Auth middleware to handle data
+* API to reset password using a code (Email information is needed)
+* Very detailed request validations for important resources
+* Handling of primary keys to have user-friendly urls in show method (Avoid using resource/{id})
+* And more!
+
+Thanks for watching and don't forget to rate this project!
+
+Best,
+Daniel

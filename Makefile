@@ -15,7 +15,7 @@ stop:
 up:
 	docker-compose up -d
 composer-install:
-	docker exec backend_app bash -c "composer create-project laravel/laravel . 11.x"
+	docker exec backend_app bash -c "cp .env.example .env"
 	docker exec backend_app bash -c "composer install"
 	docker exec backend_app bash -c "php artisan key:generate"
 	docker exec backend_app bash -c "php artisan install:api"
@@ -25,7 +25,6 @@ migrate:
 	docker exec backend_app bash -c "php artisan migrate"
 migrate-seed:
 	docker exec backend_app bash -c "php artisan migrate:fresh --seed"
-	@make articles-sync
 test:
 	docker exec backend_app bash -c "php artisan test"
 route-list:
